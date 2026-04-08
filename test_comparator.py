@@ -1,9 +1,10 @@
 import pytest
 from comparator import compare_lines, save_to_file, get_file_content
 
+
 @pytest.fixture
-def temp_output(tmp_path):
-    return tmp_path / "test_result.txt"
+def temp_file(tmp_path):
+    return tmp_path / "test_file.txt"
 
 
 @pytest.mark.parametrize("set1, set2, expected_same, expected_diff", [
@@ -24,11 +25,10 @@ def test_compare_logic(set1, set2, expected_same, expected_diff):
 ])
 def test_get_file_content_valid(temp_file, file_content, expected_result):
     temp_file.write_text(file_content, encoding='utf-8')
-
     result = get_file_content(str(temp_file))
-    
     assert result == expected_result
-    
+
+
 def test_get_file_content_not_found():
     result = get_file_content("non_existent_file.txt")
     assert result == set()
@@ -41,5 +41,4 @@ def test_get_file_content_not_found():
 ])
 def test_save_to_file(temp_file, lines_to_save, expected_file_content):
     save_to_file(lines_to_save, str(temp_file))
-    
     assert temp_file.read_text(encoding='utf-8') == expected_file_content
