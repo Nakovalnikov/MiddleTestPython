@@ -7,6 +7,11 @@ def get_file_content(filepath):
     except FileNotFoundError:
         return set()
 
+def compare_lines(set1, set2):
+    same = sorted(list(set1.intersection(set2)))
+    diff = sorted(list(set1.symmetric_difference(set2)))
+    return same, diff        
+
 def main(file1, file2):
     content1 = get_file_content(file1)
     content2 = get_file_content(file2)
